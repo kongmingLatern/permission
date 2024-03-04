@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@vicons/ionicons5": "^0.12.0",
@@ -16,6 +17,7 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.24",
     "@unocss/preset-attributify": "^0.58.5",
     "@unocss/preset-uno": "^0.58.5",
     "@vitejs/plugin-vue": "^5.0.4",
@@ -23,6 +25,7 @@
     "typescript": "^5.2.2",
     "vfonts": "^0.0.3",
     "vite": "^5.1.4",
+    "vitest": "^1.3.1",
     "vue-tsc": "^1.8.27"
   }
 }

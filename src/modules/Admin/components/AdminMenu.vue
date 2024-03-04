@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { h, ref, defineComponent } from 'vue'
+import { h, defineComponent } from 'vue'
 import { NIcon } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import {
@@ -39,12 +39,11 @@ import {
 
 const menuOptions: MenuOption[] = [
 	{
-		label: '且听风吟',
+		label: '用户管理',
 		key: 'hear-the-wind-sing',
-		href: 'https://baike.baidu.com/item/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F/3199',
 	},
 	{
-		label: '1973年的弹珠玩具',
+		label: '角色管理',
 		key: 'pinball-1973',
 		disabled: true,
 		children: [
@@ -55,17 +54,17 @@ const menuOptions: MenuOption[] = [
 		],
 	},
 	{
-		label: '寻羊冒险记',
+		label: '菜单管理',
 		key: 'a-wild-sheep-chase',
 		disabled: true,
 	},
 	{
-		label: '舞，舞，舞',
+		label: '权限管理',
 		key: 'dance-dance-dance',
 		children: [
 			{
 				type: 'group',
-				label: '人物',
+				label: '接口',
 				key: 'people',
 				children: [
 					{
@@ -85,7 +84,6 @@ const menuOptions: MenuOption[] = [
 					{
 						label: '威士忌',
 						key: 'whisky',
-						href: 'https://baike.baidu.com/item/%E5%A8%81%E5%A3%AB%E5%BF%8C%E9%85%92/2959816?fromtitle=%E5%A8%81%E5%A3%AB%E5%BF%8C&fromid=573&fr=aladdin',
 					},
 				],
 			},
