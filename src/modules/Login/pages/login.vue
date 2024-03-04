@@ -4,39 +4,57 @@
 		:label-width="80"
 		:model="formValue"
 		:rules="rules"
+		label-placement="left"
+		class="w-400px bg-[#7075e0] p-1rem rounded-lg overflow-hidden absolute-center"
 	>
-		<n-form-item label="姓名" path="user.name">
+		<h1
+			text-center
+			color-white
+			style="letter-spacing: 0.2rem"
+		>
+			登录
+		</h1>
+		<n-form-item
+			label="用户名"
+			path="username"
+			label-style="color: white"
+		>
 			<n-input
-				v-model:value="formValue.user.name"
-				placeholder="输入姓名"
+				v-model:value="formValue.username"
+				placeholder="输入用户名"
 			/>
 		</n-form-item>
-		<n-form-item label="年龄" path="user.age">
+		<n-form-item
+			label="密码"
+			path="password"
+			label-style="color: white"
+		>
 			<n-input
-				v-model:value="formValue.user.age"
-				placeholder="输入年龄"
+				type="password"
+				v-model:value="formValue.password"
+				placeholder="输入密码"
 			/>
 		</n-form-item>
-		<n-form-item label="电话号码" path="phone">
-			<n-input
-				v-model:value="formValue.phone"
-				placeholder="电话号码"
-			/>
+
+		<n-form-item color-white pl-1rem>
+			<span
+				>没有账号？去
+				<RouterLink to="/register" color-white font-bold
+					>注册</RouterLink
+				>
+			</span>
 		</n-form-item>
-		<n-form-item>
+
+		<div style="display: flex; justify-content: flex-end">
 			<n-button
-				attr-type="button"
+				strong
+				type="success"
 				@click="handleValidateClick"
 			>
-				验证
+				登录
 			</n-button>
-		</n-form-item>
+		</div>
 	</n-form>
-
-	<pre
-		>{{ JSON.stringify(formValue, null, 2) }}
-</pre
-	>
 </template>
 
 <script lang="ts">
@@ -50,29 +68,19 @@ export default defineComponent({
 		return {
 			formRef,
 			formValue: ref({
-				user: {
-					name: '',
-					age: '',
-				},
-				phone: '',
+				username: '',
+				password: '',
 			}),
 			rules: {
-				user: {
-					name: {
-						required: true,
-						message: '请输入姓名',
-						trigger: 'blur',
-					},
-					age: {
-						required: true,
-						message: '请输入年龄',
-						trigger: ['input', 'blur'],
-					},
-				},
-				phone: {
+				username: {
 					required: true,
-					message: '请输入电话号码',
-					trigger: ['input'],
+					message: '请输入用户名',
+					trigger: 'blur',
+				},
+				password: {
+					required: true,
+					message: '请输入密码',
+					trigger: 'blur',
 				},
 			},
 			handleValidateClick(e: MouseEvent) {
