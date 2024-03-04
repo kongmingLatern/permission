@@ -60,6 +60,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { FormInst, useMessage } from 'naive-ui'
+import { goTo } from '@/utils'
 
 export default defineComponent({
 	setup() {
@@ -88,6 +89,7 @@ export default defineComponent({
 				formRef.value?.validate(errors => {
 					if (!errors) {
 						message.success('Valid')
+						goTo('admin')
 					} else {
 						console.log(errors)
 						message.error('Invalid')
