@@ -4,46 +4,32 @@
 		cascade
 		checkable
 		:selectable="false"
-		:data="data"
-		:default-expanded-keys="defaultExpandedKeys"
-		:default-checked-keys="defaultCheckedKeys"
+		:data="data || []"
+		:default-expanded-keys="defaultExpanedKeys || []"
+		:default-checked-keys="$props.defaultCheckedKeys || []"
 		@update:checked-keys="updateCheckedKeys"
 	/>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { TreeOption } from 'naive-ui'
-
-function createData(
-	level = 4,
-	baseKey = ''
-): TreeOption[] | undefined {
-	if (!level) return undefined
-	return Array.from({ length: 4 }).map((_, index) => {
-		const key = '' + baseKey + level + index
-		return {
-			label: createLabel(level),
-			key,
-			children: createData(level - 1, key),
-		}
-	})
-}
-
-function createLabel(level: number): string {
-	if (level === 4) return '道生一'
-	if (level === 3) return '一生二'
-	if (level === 2) return '二生三'
-	if (level === 1) return '三生万物'
-	return ''
-}
+import { formatMenu } from '@/utils'
 
 export default defineComponent({
-	setup() {
+	props: [
+		'data',
+		'defaultExpandedKeys',
+		'defaultCheckedKeys',
+	],
+	setup(props, { emit }) {
+		const data = formatMenu(props.data)
+		const defaultExpanedKeys = computed(() =>
+			data.map(i => i.key)
+		)
 		return {
-			data: createData(),
-			defaultExpandedKeys: ref(['40', '4030', '403020']),
-			defaultCheckedKeys: ref(['40302010']),
+			data,
+			defaultExpanedKeys,
 			updateCheckedKeys: (
 				keys: Array<string | number>,
 				options: Array<TreeOption | null>,
@@ -52,12 +38,7 @@ export default defineComponent({
 					action: 'check' | 'uncheck'
 				}
 			) => {
-				console.log(
-					'updateCheckedKeys',
-					keys,
-					options,
-					meta
-				)
+				emit('update', keys, options, meta)
 			},
 		}
 	},

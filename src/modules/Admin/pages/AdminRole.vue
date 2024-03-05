@@ -4,13 +4,37 @@
 		:columns="createColumns()"
 		row-key="id"
 	></admin-table>
+	<FormModal header="角色管理" @confirm="handleConfirm">
+		<n-descriptions
+			label-placement="left"
+			bordered
+			:columns="2"
+		>
+			<n-descriptions-item label="角色编号">
+				{{ currentUser.roleCode }}
+			</n-descriptions-item>
+			<n-descriptions-item label="角色名称">
+				{{ currentUser.roleName }}
+			</n-descriptions-item>
+			<n-descriptions-item label="菜单权限控制" :span="2">
+				<admin-tree
+					:data="demoJSON"
+					@update="updateTree"
+				></admin-tree>
+			</n-descriptions-item>
+		</n-descriptions>
+	</FormModal>
 </template>
 
 <script setup lang="ts">
 import AdminTable from '@/modules/Admin/components/AdminTable.vue'
+import AdminTree from '../components/AdminTree.vue'
+import FormModal from '@/components/FormModal.vue'
 import dayjs from 'dayjs'
+import demoJSON from '../components/demo.json'
 import { NButton, type DataTableColumns } from 'naive-ui'
-import { h } from 'vue'
+import { h, ref } from 'vue'
+import { useFormModal } from '@/composables'
 
 type RowData = {
 	createBy: string
@@ -20,6 +44,10 @@ type RowData = {
 	roleName: string
 	roleCode: string
 }
+
+const currentUser = ref<RowData>({} as RowData)
+const treeData = ref()
+const { openFormModal } = useFormModal()
 
 const createColumns = (): DataTableColumns<RowData> => [
 	{
@@ -69,11 +97,13 @@ const createColumns = (): DataTableColumns<RowData> => [
 					strong: true,
 					tertiary: true,
 					size: 'small',
+					type: 'primary',
 					onClick: () => {
-						console.log(row)
+						currentUser.value = row
+						openFormModal()
 					},
 				},
-				{ default: () => '操作' }
+				{ default: () => '查看信息' }
 			)
 		},
 	},
@@ -88,6 +118,15 @@ const data = Array.from({ length: 46 }).map((_, index) => ({
 	roleName: '系统管理员',
 	roleCode: 'SYS_ADMIN',
 }))
+
+function updateTree(key, options, meta) {
+	treeData.value = key
+	console.log('updateTree', key, options, meta)
+	return
+}
+function handleConfirm() {
+	console.log(treeData.value)
+}
 </script>
 
 <style scoped></style>
