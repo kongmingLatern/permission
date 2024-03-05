@@ -3,13 +3,18 @@
 		v-model:show="showModal"
 		preset="dialog"
 		title="Dialog"
+		display-directive="show"
 	>
 		<template #header>
-			<div>标题</div>
+			{{ props.header || '标题' }}
 		</template>
-		<div>内容</div>
+
+		<slot></slot>
+
 		<template #action>
-			<div>操作</div>
+			<n-button type="primary" @click="closeFormModal"
+				>确定</n-button
+			>
 		</template>
 	</n-modal>
 </template>
@@ -17,7 +22,8 @@
 <script lang="ts" setup>
 import { useFormModal } from '@/composables'
 
-const { showModal } = useFormModal()
+const { showModal, closeFormModal } = useFormModal()
+const props = defineProps(['header'])
 </script>
 
 <style scoped></style>

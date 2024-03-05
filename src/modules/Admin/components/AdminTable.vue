@@ -1,6 +1,10 @@
 <template>
 	<n-data-table
-		:columns="props.columns"
+		:columns="
+			props.columns.map((i: any) => {
+				return { ...i, align: 'center' }
+			})
+		"
 		:data="props.data"
 		:pagination="{
 			pageSize: 20,

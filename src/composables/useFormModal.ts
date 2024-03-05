@@ -2,6 +2,7 @@ import { ref } from 'vue'
 
 const showModal = ref(false)
 export function useFormModal() {
+
 	function openFormModal() {
 		showModal.value = true
 	}
@@ -9,6 +10,7 @@ export function useFormModal() {
 	function closeFormModal() {
 		showModal.value = false
 	}
+
 
 	return {
 		showModal,
