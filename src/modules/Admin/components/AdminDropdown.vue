@@ -1,5 +1,9 @@
 <template>
-	<n-dropdown :options="options" :show-arrow="true">
+	<n-dropdown
+		:options="options"
+		:show-arrow="true"
+		@select="handleSelect"
+	>
 		<n-flex align="center" size="small">
 			<n-icon size="32" :component="UserIcon" />
 			<span>用户名</span>
@@ -10,12 +14,14 @@
 <script lang="ts">
 import { h, defineComponent } from 'vue'
 import type { Component } from 'vue'
-import { NIcon } from 'naive-ui'
+import { NIcon, useMessage } from 'naive-ui'
 import {
 	PersonCircleOutline as UserIcon,
 	Pencil as EditIcon,
 	LogOutOutline as LogoutIcon,
 } from '@vicons/ionicons5'
+import { http, urls } from '@/api'
+import { goTo } from '@/utils'
 const renderIcon = (icon: Component) => {
 	return () => {
 		return h(NIcon, null, {
@@ -26,6 +32,7 @@ const renderIcon = (icon: Component) => {
 
 export default defineComponent({
 	setup() {
+		const message = useMessage()
 		return {
 			UserIcon,
 			options: [
@@ -45,6 +52,19 @@ export default defineComponent({
 					icon: renderIcon(LogoutIcon),
 				},
 			],
+			handleSelect: async key => {
+				if (key === 'logout') {
+					//退出登录
+					try {
+						await http.post(urls.common.loginOut)
+						localStorage.clear()
+						message.success('已退出登录！')
+						goTo('login')
+					} catch (e) {
+						message.error('异常错误！')
+					}
+				}
+			},
 		}
 	},
 })

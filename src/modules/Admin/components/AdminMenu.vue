@@ -53,20 +53,6 @@ const menuOptions: MenuOption[] = [
 				RouterLink,
 				{
 					to: {
-						name: 'admin-menu',
-					},
-				},
-				{ default: () => '菜单管理' }
-			),
-		key: 'admin-menu',
-		icon: renderIcon(HomeIcon),
-	},
-	{
-		label: () =>
-			h(
-				RouterLink,
-				{
-					to: {
 						name: 'admin-role',
 					},
 				},
@@ -81,28 +67,70 @@ const menuOptions: MenuOption[] = [
 				RouterLink,
 				{
 					to: {
-						name: 'admin-permission',
+						name: 'admin-path',
 					},
 				},
-				{ default: () => '权限管理' }
+				{ default: () => '路径管理' }
 			),
-		key: 'admin-permission',
+		key: 'admin-path',
 		icon: renderIcon(BookIcon),
 	},
-	// {
-	// 	label: () =>
-	// 		h(
-	// 			RouterLink,
-	// 			{
-	// 				to: {
-	// 					name: 'admin-log',
-	// 				},
-	// 			},
-	// 			{ default: () => '日志管理' }
-	// 		),
-	// 	key: 'admin-log',
-	// 	icon: renderIcon(BookIcon),
-	// },
+	{
+		label: () =>
+			h(
+				RouterLink,
+				{
+					to: {
+						name: 'admin-department',
+					},
+				},
+				{ default: () => '部门管理' }
+			),
+		key: 'admin-department',
+		icon: renderIcon(BookIcon),
+	},
+	{
+		label: () =>
+			h(
+				RouterLink,
+				{
+					to: {
+						name: 'admin-menu',
+					},
+				},
+				{ default: () => '菜单管理' }
+			),
+		key: 'admin-menu',
+		icon: renderIcon(HomeIcon),
+	},
+	{
+		label: () =>
+			h(
+				RouterLink,
+				{
+					to: {
+						name: 'admin-tenantId',
+					},
+				},
+				{ default: () => '租户管理' }
+			),
+		key: 'admin-tenantId',
+		icon: renderIcon(HomeIcon),
+	},
+	{
+		label: () =>
+			h(
+				RouterLink,
+				{
+					to: {
+						name: 'admin-log',
+					},
+				},
+				{ default: () => '日志管理' }
+			),
+		key: 'admin-log',
+		icon: renderIcon(BookIcon),
+	},
 ]
 
 export default defineComponent({

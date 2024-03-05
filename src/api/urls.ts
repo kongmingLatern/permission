@@ -1,11 +1,28 @@
 export const urls = {
   common: {
     login: '/api/login',
+    menu: '/api/menu',
     loginOut: '/api/loginOut'
+  },
+  log: {
+    queryById: '/api/system/sysLog/queryById',
+    page: '/api/system/sysLog/page',
+    list: '/api/system/sysLog/list',
+    save: '/api/system/sysLog/save',
+    remove: '/api/system/sysLog/remove',
+    update: '/api/system/sysLog/update'
+  },
+  tenant: {
+    queryById: '/api/system/sysTenant/queryById',
+    page: '/api/system/sysTenant/page',
+    list: '/api/system/sysTenant/list',
+    save: '/api/system/sysTenant/save',
+    remove: '/api/system/sysTenant/remove',
+    update: '/api/system/sysTenant/update'
   },
   userRole: {
     queryById: '/api/system/sysUserRole/queryById',
-    page: '/api/system/sysUserRole/queryById',
+    page: '/api/system/sysUserRole/page',
     list: '/api/system/sysUserRole/list',
     remove: '/api/system/sysUserRole/remove'
   },
@@ -39,6 +56,7 @@ export const urls = {
     save: '/api/system/sysPathRole/save',
   },
   path: {
+    update: '/api/system/sysPath/update',
     queryById: '/api/system/sysPath/queryById',
     page: '/api/system/sysPath/page',
     list: '/api/system/sysPath/list',

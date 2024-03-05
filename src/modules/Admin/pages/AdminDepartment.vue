@@ -17,10 +17,8 @@ type RowData = {
 	createTime: Date
 	updateBy: string
 	updateTime: Date
-
-	path: string
+	roleName: string
 	roleCode: string
-	param: string
 }
 
 const createColumns = (): DataTableColumns<RowData> => [
@@ -28,16 +26,12 @@ const createColumns = (): DataTableColumns<RowData> => [
 		type: 'selection',
 	},
 	{
-		title: '接口路径',
-		key: 'path',
-	},
-	{
-		title: '接口参数',
-		key: 'param',
-	},
-	{
-		title: '角色标识',
+		title: '角色编号',
 		key: 'roleCode',
+	},
+	{
+		title: '角色名称',
+		key: 'roleName',
 	},
 	{
 		title: '创建者',
@@ -91,9 +85,8 @@ const data = Array.from({ length: 46 }).map((_, index) => ({
 	createTime: '2024-02-28T14:00:00.000Z',
 	updateBy: 'xiaoming123',
 	updateTime: '2024-03-05T09:30:00.000Z',
-	path: '/api/user/page/list' + index,
-	param: 'pageSize: {}',
-	roleCode: 'SYS_ADMIN' + index,
+	roleName: '系统管理员',
+	roleCode: 'SYS_ADMIN',
 }))
 </script>
 

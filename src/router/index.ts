@@ -33,19 +33,29 @@ const router = createRouter({
 					component: () => import('@/modules/Admin/pages/AdminUser.vue')
 				},
 				{
-					path: 'menu',
-					name: 'admin-menu',
-					component: () => import('@/modules/Admin/pages/AdminMenu.vue')
-				},
-				{
 					path: 'role',
 					name: 'admin-role',
 					component: () => import('@/modules/Admin/pages/AdminRole.vue')
 				},
 				{
-					path: 'permission',
-					name: 'admin-permission',
-					component: () => import('@/modules/Admin/pages/AdminPermission.vue')
+					path: 'path',
+					name: 'admin-path',
+					component: () => import('@/modules/Admin/pages/AdminPath.vue')
+				},
+				{
+					path: 'department',
+					name: 'admin-department',
+					component: () => import('@/modules/Admin/pages/AdminDepartment.vue')
+				},
+				{
+					path: 'menu',
+					name: 'admin-menu',
+					component: () => import('@/modules/Admin/pages/AdminMenu.vue')
+				},
+				{
+					path: 'tenantId',
+					name: 'admin-tenantId',
+					component: () => import('@/modules/Admin/pages/AdminTenantId.vue')
 				},
 				{
 					path: 'log',

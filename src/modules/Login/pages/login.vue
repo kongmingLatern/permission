@@ -61,6 +61,7 @@
 import { defineComponent, ref } from 'vue'
 import { FormInst, useMessage } from 'naive-ui'
 import { goTo } from '@/utils'
+import { http, urls } from '@/api'
 
 export default defineComponent({
 	setup() {
@@ -86,10 +87,24 @@ export default defineComponent({
 			},
 			handleValidateClick(e: MouseEvent) {
 				e.preventDefault()
-				formRef.value?.validate(errors => {
+				formRef.value?.validate(async errors => {
 					if (!errors) {
 						message.success('Valid')
-						goTo('admin')
+						try {
+							const res = await http.post(
+								urls.common.login,
+								formRef.value.model
+							)
+							localStorage.setItem('token', res.data)
+							const r = await http.post(urls.common.menu)
+							localStorage.setItem(
+								'tenantId',
+								r.data.tenantId
+							)
+							goTo('admin')
+						} catch (e) {
+							console.log(e)
+						}
 					} else {
 						console.log(errors)
 						message.error('Invalid')

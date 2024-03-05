@@ -1,6 +1,8 @@
 <template>
 	<n-flex justify="end" class="p-2">
-		<n-button type="primary">创建角色</n-button>
+		<n-button type="primary" @click="handleClick"
+			>创建角色</n-button
+		>
 	</n-flex>
 	<admin-table
 		:data="data"
@@ -32,12 +34,14 @@
 <script setup lang="ts">
 import AdminTable from '@/modules/Admin/components/AdminTable.vue'
 import AdminTree from '../components/AdminTree.vue'
+import AddRoleForm from '@/modules/Admin/components/role/AddRoleForm.vue'
 import FormModal from '@/components/FormModal.vue'
 import dayjs from 'dayjs'
 import {
 	NButton,
 	type DataTableColumns,
 	NFlex,
+	useModal,
 } from 'naive-ui'
 import { h, ref } from 'vue'
 import { useFormModal } from '@/composables'
@@ -58,7 +62,8 @@ const currentUser = ref<RowData>({} as RowData)
 const treeData = ref()
 const data = ref<RowData[]>([])
 const json = ref([])
-const { openFormModal } = useFormModal()
+const { openFormModal, closeFormModal } = useFormModal()
+const modal = useModal()
 
 const createColumns = (): DataTableColumns<RowData> => [
 	{
@@ -162,6 +167,14 @@ function updateTree(key, options, meta) {
 }
 function handleConfirm() {
 	console.log(treeData.value, currentUser.value)
+}
+function handleClick() {
+	const modalInst = modal.create({
+		title: '创建角色',
+		content: () => h(AddRoleForm),
+		preset: 'dialog',
+	})
+	console.log(modalInst)
 }
 </script>
 

@@ -5,24 +5,39 @@
 				return { ...i, align: 'center' }
 			})
 		"
+		:loading="props.loading"
 		:data="props.data"
 		:pagination="{
 			pageSize: 20,
 		}"
+		remote
 		:row-key="row => handleRowKey(row)"
 		@update:checked-row-keys="handleCheck"
+		@update:page="handleChangePage"
 	/>
 </template>
 
 <script lang="ts" setup>
+// TODO: 总页数问题
 import { DataTableRowKey } from 'naive-ui'
 import { RowData } from 'naive-ui/es/data-table/src/interface'
 import { ref } from 'vue'
 const checkedRowKeysRef = ref<DataTableRowKey[]>([])
-const props = defineProps(['columns', 'data', 'rowKey'])
+const props = defineProps([
+	'columns',
+	'data',
+	'rowKey',
+	'loading',
+])
+
+const emits = defineEmits(['updatePage'])
 
 function handleCheck(rowKeys: DataTableRowKey[]) {
 	checkedRowKeysRef.value = rowKeys
+}
+
+function handleChangePage(page: number) {
+	emits('updatePage', page)
 }
 
 function handleRowKey(row: RowData) {

@@ -1,41 +1,76 @@
 <template>
-	<admin-table
-		:data="data"
-		:columns="createColumns()"
-		row-key="id"
-	></admin-table>
+	<admin-layout
+		:get-url="urls.log.page"
+		:columns="columns"
+		:hasAction="false"
+	></admin-layout>
 </template>
 
 <script setup lang="ts">
-import AdminTable from '@/modules/Admin/components/AdminTable.vue'
+import AdminLayout from '@/modules/Admin/layout/AdminLayout.vue'
+import { urls } from '@/api'
 import dayjs from 'dayjs'
-import { NButton, type DataTableColumns } from 'naive-ui'
 import { h } from 'vue'
-
-type RowData = {
-	createBy: string
-	createTime: Date
-	updateBy: string
-	updateTime: Date
-	roleName: string
-	roleCode: string
-}
-
-const createColumns = (): DataTableColumns<RowData> => [
+import { NTag } from 'naive-ui'
+const columns = [
 	{
-		type: 'selection',
+		title: '日志内容',
+		key: 'logContent',
 	},
 	{
-		title: '角色编号',
-		key: 'roleCode',
+		title: '日志类型',
+		key: 'logType',
+		render: row => {
+			if (row.logType === 1) {
+				return h(NTag, {}, { default: () => '登录日志' })
+			} else if (row.logType === 2) {
+				return h(NTag, {}, { default: () => '操作日志' })
+			} else {
+				return h(
+					NTag,
+					{ type: 'error' },
+					{ default: () => '未知日志' }
+				)
+			}
+		},
 	},
 	{
-		title: '角色名称',
-		key: 'roleName',
+		title: '操作用户',
+		key: 'username',
 	},
 	{
-		title: '创建者',
-		key: 'createBy',
+		title: 'ip地址',
+		key: 'ip',
+	},
+	{
+		title: '请求地址',
+		key: 'requestUrl',
+	},
+	{
+		title: '请求方式',
+		key: 'requestType',
+		render: row => {
+			return h(
+				NTag,
+				{
+					type: 'info',
+				},
+				{
+					default: () => row.requestType,
+				}
+			)
+		},
+	},
+	{
+		title: '请求参数',
+		key: 'requestParam',
+	},
+	{
+		title: '花费时间',
+		key: 'costTime',
+		render: row => {
+			return row.costTime / 1000 + 's'
+		},
 	},
 	{
 		title: '创建时间',
@@ -47,10 +82,6 @@ const createColumns = (): DataTableColumns<RowData> => [
 		},
 	},
 	{
-		title: '更新者',
-		key: 'createBy',
-	},
-	{
 		title: '更新时间',
 		key: 'createTime',
 		render(row) {
@@ -59,35 +90,7 @@ const createColumns = (): DataTableColumns<RowData> => [
 			)
 		},
 	},
-	{
-		title: '操作',
-		key: 'actions',
-		render(row) {
-			return h(
-				NButton,
-				{
-					strong: true,
-					tertiary: true,
-					size: 'small',
-					onClick: () => {
-						console.log(row)
-					},
-				},
-				{ default: () => '操作' }
-			)
-		},
-	},
 ]
-
-const data = Array.from({ length: 46 }).map((_, index) => ({
-	id: `${index}`,
-	createBy: `admin${index}`,
-	createTime: '2024-02-28T14:00:00.000Z',
-	updateBy: 'xiaoming123',
-	updateTime: '2024-03-05T09:30:00.000Z',
-	roleName: '系统管理员',
-	roleCode: 'SYS_ADMIN',
-}))
 </script>
 
 <style scoped></style>

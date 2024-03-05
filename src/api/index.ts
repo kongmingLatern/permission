@@ -9,8 +9,8 @@ const http = axios.create({
 http.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么，例如添加token
-    config.headers.Authorization = `f79c497e-0114-45a4-a0be-cde3433e4659`;
-    config.headers.tenantId = `cs`;
+    config.headers.Authorization = localStorage.getItem('token') || ``;
+    config.headers.tenantId = localStorage.getItem('tenantId') || ``;
     console.log('Request is sent.');
     return config;
   }, function (error) {
@@ -32,4 +32,5 @@ export {
   http
 };
 export * from './urls'
+export * from './methods'
 
