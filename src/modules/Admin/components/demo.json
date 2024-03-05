@@ -1,0 +1,100 @@
+[
+  {
+    "id": "1465571524646932482",
+    "createTime": "2021-11-30 14:40:55",
+    "delFlag": false,
+    "name": "首页",
+    "path": "/admin/dashboard/Analysis",
+    "componentPath": "/dashboard/Analysis",
+    "menuType": "1",
+    "sort": 0,
+    "icon": "home",
+    "children": []
+  },
+  {
+    "id": "1465863947700801538",
+    "createTime": "2021-12-01 10:02:54",
+    "delFlag": false,
+    "name": "系统管理",
+    "path": "/admin/layouts/RouteView",
+    "componentPath": "/layouts/RouteView",
+    "componentName": "/layouts/RouteView",
+    "menuType": "0",
+    "sort": 100,
+    "icon": "setting",
+    "children": [
+      {
+        "id": "1465864930711441410",
+        "createTime": "2021-12-01 10:06:49",
+        "delFlag": false,
+        "parentId": "1465863947700801538",
+        "name": "操作权限",
+        "path": "/admin/layouts/RouteView/system/Jurisdiction",
+        "componentPath": "/system/Jurisdiction",
+        "menuType": "1",
+        "sort": 1,
+        "children": []
+      },
+      {
+        "id": "1465864296402653186",
+        "createTime": "2021-12-01 10:04:17",
+        "delFlag": false,
+        "parentId": "1465863947700801538",
+        "name": "菜单管理",
+        "path": "/admin/layouts/RouteView/system/PermissionList",
+        "componentPath": "/system/PermissionList",
+        "menuType": "1",
+        "sort": 2,
+        "children": []
+      },
+      {
+        "id": "1465864607443849218",
+        "createTime": "2021-12-01 10:05:32",
+        "delFlag": false,
+        "parentId": "1465863947700801538",
+        "name": "角色管理",
+        "path": "/admin/layouts/RouteView/system/RoleList",
+        "componentPath": "/system/RoleList",
+        "menuType": "1",
+        "sort": 3,
+        "children": []
+      },
+      {
+        "id": "1465876341021872130",
+        "createTime": "2021-12-01 10:52:09",
+        "delFlag": false,
+        "parentId": "1465863947700801538",
+        "name": "用户管理",
+        "path": "/admin/layouts/RouteView/system/UserList",
+        "componentPath": "/system/UserList",
+        "menuType": "1",
+        "sort": 4,
+        "children": []
+      },
+      {
+        "id": "1465877103697334274",
+        "createTime": "2021-12-01 10:55:11",
+        "delFlag": false,
+        "parentId": "1465863947700801538",
+        "name": "角色组管理",
+        "path": "/admin/layouts/RouteView/system/RoleGroupList",
+        "componentPath": "/system/RoleGroupList",
+        "menuType": "1",
+        "sort": 5,
+        "children": []
+      },
+      {
+        "id": "1467767576951132161",
+        "createTime": "2021-12-06 16:07:15",
+        "delFlag": false,
+        "parentId": "1465863947700801538",
+        "name": "部门管理",
+        "path": "/admin/layouts/RouteView/system/DepartList",
+        "componentPath": "/system/DepartList",
+        "menuType": "1",
+        "sort": 8,
+        "children": []
+      }
+    ]
+  }
+]
