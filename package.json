@@ -10,7 +10,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@vicons/ionicons5": "^0.12.0",
     "naive-ui": "^2.38.1",
     "unocss": "^0.58.5",
     "vue": "^3.4.19",
@@ -20,6 +19,8 @@
     "@types/node": "^20.11.24",
     "@unocss/preset-attributify": "^0.58.5",
     "@unocss/preset-uno": "^0.58.5",
+    "@vicons/ionicons5": "^0.12.0",
+    "@vicons/ionicons4": "^0.12.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "sass": "^1.71.1",
     "typescript": "^5.2.2",
