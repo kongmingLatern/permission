@@ -1,4 +1,9 @@
 <template>
+	<n-flex justify="end" class="p-2">
+		<n-button type="primary" @click="handleClick"
+			>创建用户</n-button
+		>
+	</n-flex>
 	<admin-table
 		:data="data"
 		:columns="createColumns()"
@@ -33,11 +38,13 @@ import FormModal from '@/components/FormModal.vue'
 import { http, urls } from '@/api'
 import demoJSON from '../components/demo.json'
 import dayjs from 'dayjs'
+import AddUserForm from '@/modules/Admin/components/user/AddUserForm.vue'
 import {
 	NButton,
 	type DataTableColumns,
 	NTag,
 	NFlex,
+	useModal,
 } from 'naive-ui'
 import { h, onMounted, ref } from 'vue'
 import { useFormModal } from '@/composables'
@@ -55,6 +62,7 @@ type RowData = {
 }
 
 const { openFormModal } = useFormModal()
+const modal = useModal()
 const currentUser = ref<RowData>({} as RowData)
 const data = ref<RowData[]>([])
 
@@ -173,6 +181,15 @@ onMounted(async () => {
 	).records
 	console.log(data.value)
 })
+
+const handleClick = () => {
+	const modalInst = modal.create({
+		title: '创建用户',
+		content: () => h(AddUserForm),
+		preset: 'dialog',
+	})
+	console.log(modalInst)
+}
 </script>
 
 <style scoped></style>

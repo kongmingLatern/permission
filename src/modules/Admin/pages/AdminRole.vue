@@ -1,4 +1,7 @@
 <template>
+	<n-flex justify="end" class="p-2">
+		<n-button type="primary">创建角色</n-button>
+	</n-flex>
 	<admin-table
 		:data="data"
 		:columns="createColumns()"
@@ -18,7 +21,7 @@
 			</n-descriptions-item>
 			<n-descriptions-item label="菜单权限控制" :span="2">
 				<admin-tree
-					:data="demoJSON"
+					:data="[]"
 					@update="updateTree"
 				></admin-tree>
 			</n-descriptions-item>
@@ -31,12 +34,18 @@ import AdminTable from '@/modules/Admin/components/AdminTable.vue'
 import AdminTree from '../components/AdminTree.vue'
 import FormModal from '@/components/FormModal.vue'
 import dayjs from 'dayjs'
-import demoJSON from '../components/demo.json'
-import { NButton, type DataTableColumns } from 'naive-ui'
+import {
+	NButton,
+	type DataTableColumns,
+	NFlex,
+} from 'naive-ui'
 import { h, ref } from 'vue'
 import { useFormModal } from '@/composables'
+import { onMounted } from 'vue'
+import { http, urls } from '@/api'
 
 type RowData = {
+	id: string
 	createBy: string
 	createTime: Date
 	updateBy: string
@@ -47,6 +56,8 @@ type RowData = {
 
 const currentUser = ref<RowData>({} as RowData)
 const treeData = ref()
+const data = ref<RowData[]>([])
+const json = ref([])
 const { openFormModal } = useFormModal()
 
 const createColumns = (): DataTableColumns<RowData> => [
@@ -92,32 +103,57 @@ const createColumns = (): DataTableColumns<RowData> => [
 		key: 'actions',
 		render(row) {
 			return h(
-				NButton,
+				NFlex,
+				{},
 				{
-					strong: true,
-					tertiary: true,
-					size: 'small',
-					type: 'primary',
-					onClick: () => {
-						currentUser.value = row
-						openFormModal()
-					},
-				},
-				{ default: () => '查看信息' }
+					default: () => [
+						h(
+							NButton,
+							{
+								strong: true,
+								tertiary: true,
+								size: 'small',
+								type: 'primary',
+								onClick: async () => {
+									currentUser.value = row
+									openFormModal()
+									const res = await http.get(
+										urls.permission.queryById,
+										{ params: { id: currentUser.value.id } }
+									)
+									// TODO:
+									console.log(res)
+								},
+							},
+							{ default: () => '查看信息' }
+						),
+						h(
+							NButton,
+							{
+								strong: true,
+								tertiary: true,
+								size: 'small',
+								type: 'warning',
+								onClick: async () => {
+									currentUser.value = row
+									openFormModal()
+									// TODO:
+								},
+							},
+							{ default: () => '分配权限' }
+						),
+					],
+				}
 			)
 		},
 	},
 ]
 
-const data = Array.from({ length: 46 }).map((_, index) => ({
-	id: `${index}`,
-	createBy: `admin${index}`,
-	createTime: '2024-02-28T14:00:00.000Z',
-	updateBy: 'xiaoming123',
-	updateTime: '2024-03-05T09:30:00.000Z',
-	roleName: '系统管理员',
-	roleCode: 'SYS_ADMIN',
-}))
+onMounted(async () => {
+	data.value = (
+		(await http.get(urls.role.page)) as any
+	).records
+})
 
 function updateTree(key, options, meta) {
 	treeData.value = key
