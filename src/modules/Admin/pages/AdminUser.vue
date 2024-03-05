@@ -35,6 +35,7 @@ import {
 	NButton,
 	type DataTableColumns,
 	NTag,
+	NFlex,
 } from 'naive-ui'
 import { h, ref } from 'vue'
 import { useFormModal } from '@/composables'
@@ -123,17 +124,41 @@ const createColumns = (): DataTableColumns<RowData> => [
 		key: 'actions',
 		render(row) {
 			return h(
-				NButton,
+				NFlex,
+				{},
 				{
-					strong: true,
-					tertiary: true,
-					size: 'small',
-					onClick: () => {
-						openFormModal()
-						currentUser.value = row
+					default: () => {
+						return [
+							h(
+								NButton,
+								{
+									strong: true,
+									tertiary: true,
+									size: 'small',
+									type: 'info',
+									onClick: () => {
+										openFormModal()
+										currentUser.value = row
+									},
+								},
+								{ default: () => '查看信息' }
+							),
+							h(
+								NButton,
+								{
+									strong: true,
+									size: 'small',
+									type: 'success',
+									onClick: () => {
+										openFormModal()
+										currentUser.value = row
+									},
+								},
+								{ default: () => '权限分配' }
+							),
+						]
 					},
-				},
-				{ default: () => 'Play' }
+				}
 			)
 		},
 	},
