@@ -25,6 +25,13 @@ const router = createRouter({
 			name: 'admin',
 			component: () =>
 				import('@/modules/Admin/pages/index.vue'),
+			children: [
+				{
+					path: 'user',
+					name: 'admin-user',
+					component: () => import('@/modules/Admin/pages/AdminUser.vue')
+				},
+			]
 		},
 	],
 })

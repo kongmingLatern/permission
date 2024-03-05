@@ -1,5 +1,6 @@
 import 'uno.css'
 import 'vfonts/FiraCode.css'
+import '@/assets/var.scss'
 
 import App from './App.vue'
 import { createApp } from 'vue'
