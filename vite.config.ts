@@ -19,6 +19,15 @@ export default defineConfig({
 			},
 		}),
 	],
+	server: {
+		proxy: {
+			'^/api': {
+				target: 'http://172.17.12.224:8000/', // 将要代理的目标地址
+				changeOrigin: true, // 是否改变源地址
+				rewrite: (path) => path.replace(/^\/api/, ''), // 重写路径: 去掉路径中的 `/api`
+			}
+		}
+	},
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),

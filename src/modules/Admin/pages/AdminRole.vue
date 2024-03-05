@@ -125,7 +125,7 @@ function updateTree(key, options, meta) {
 	return
 }
 function handleConfirm() {
-	console.log(treeData.value)
+	console.log(treeData.value, currentUser.value)
 }
 </script>
 
