@@ -9,7 +9,8 @@ const http = axios.create({
 http.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么，例如添加token
-    // config.headers.Authorization = `Bearer ${yourAuthToken}`;
+    config.headers.Authorization = `f79c497e-0114-45a4-a0be-cde3433e4659`;
+    config.headers.tenantId = `cs`;
     console.log('Request is sent.');
     return config;
   }, function (error) {
@@ -21,12 +22,14 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
-    console.log('Response received.');
-    return response;
+    return response.data;
   }, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
   });
 
-export default http;
+export {
+  http
+};
+export * from './urls'
 

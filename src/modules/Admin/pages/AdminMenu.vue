@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import { http, urls } from '@/api'
 import AdminTable from '@/modules/Admin/components/AdminTable.vue'
 import dayjs from 'dayjs'
 import {
@@ -14,7 +15,7 @@ import {
 	type DataTableColumns,
 	NTag,
 } from 'naive-ui'
-import { h } from 'vue'
+import { h, onMounted, ref } from 'vue'
 
 type RowData = {
 	createBy: string
@@ -35,6 +36,7 @@ type RowData = {
 	children: RowData[]
 }
 
+const data = ref<RowData[]>([])
 const createColumns = (): DataTableColumns<RowData> => [
 	{
 		type: 'selection',
@@ -124,39 +126,9 @@ const createColumns = (): DataTableColumns<RowData> => [
 	},
 ]
 
-const data = Array.from({ length: 46 }).map((_, index) => ({
-	id: `${index}`,
-	createBy: `system${index}`,
-	createTime: '2024-03-01T12:00:00.000Z',
-	updateBy: `admin${index}`,
-	updateTime: '2024-03-05T10:00:00.000Z',
-	name: '仪表盘',
-	path: '/dashboard',
-	icon: 'dashboard',
-	componentPath: '/dashboard/index',
-	componentName: 'Dashboard',
-	redirect: '/dashboard/index',
-	menuType: index % 2,
-	description: '系统仪表盘，提供系统概览',
-	children: [
-		{
-			id: `100-${index}`,
-			createBy: 'system',
-			createTime: '2024-03-01T13:00:00.000Z',
-			updateBy: 'user1',
-			updateTime: '2024-03-05T10:15:00.000Z',
-			name: '工作台',
-			path: '/dashboard/workplace',
-			icon: 'workplace',
-			componentPath: '/dashboard/workplace',
-			componentName: 'Workplace',
-			redirect: '',
-			menuType: 'SUBMENU',
-			description: '个人工作台，任务和项目管理',
-			children: [],
-		},
-	],
-}))
+onMounted(async () => {
+	data.value = (await http.get(urls.permission.list)) as any
+})
 </script>
 
 <style scoped></style>

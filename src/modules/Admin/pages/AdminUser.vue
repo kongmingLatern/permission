@@ -14,10 +14,10 @@
 				{{ currentUser.username }}
 			</n-descriptions-item>
 			<n-descriptions-item label="真实姓名">
-				{{ currentUser.realName }}
+				{{ currentUser.realname }}
 			</n-descriptions-item>
 			<n-descriptions-item label="权限控制" :span="2">
-				<AdminTree />
+				<AdminTree :data="demoJSON" />
 			</n-descriptions-item>
 			<n-descriptions-item label="账号状态">
 				{{ currentUser.status === 0 ? '冻结' : '正常' }}
@@ -30,6 +30,8 @@
 import AdminTable from '@/modules/Admin/components/AdminTable.vue'
 import AdminTree from '../components/AdminTree.vue'
 import FormModal from '@/components/FormModal.vue'
+import { http, urls } from '@/api'
+import demoJSON from '../components/demo.json'
 import dayjs from 'dayjs'
 import {
 	NButton,
@@ -37,12 +39,12 @@ import {
 	NTag,
 	NFlex,
 } from 'naive-ui'
-import { h, ref } from 'vue'
+import { h, onMounted, ref } from 'vue'
 import { useFormModal } from '@/composables'
 
 type RowData = {
 	username: string
-	realName: string
+	realname: string
 	sex: number
 	email: string
 	phone: string
@@ -54,6 +56,7 @@ type RowData = {
 
 const { openFormModal } = useFormModal()
 const currentUser = ref<RowData>({} as RowData)
+const data = ref<RowData[]>([])
 
 const createColumns = (): DataTableColumns<RowData> => [
 	{
@@ -65,7 +68,7 @@ const createColumns = (): DataTableColumns<RowData> => [
 	},
 	{
 		title: '真实姓名',
-		key: 'realName',
+		key: 'realname',
 	},
 	{
 		title: '性别',
@@ -164,18 +167,12 @@ const createColumns = (): DataTableColumns<RowData> => [
 	},
 ]
 
-const data = Array.from({ length: 46 }).map((_, index) => ({
-	id: `${index}`,
-	username: `xiaoming${index}`,
-	realName: '小明',
-	sex: 1,
-	email: 'xiaoming123@example.com',
-	phone: '13800000000',
-	status: 1,
-	loginDate: '2024-03-05T09:00:00.000Z',
-	modifyDate: '2024-03-05T09:30:00.000Z',
-	tenantIds: 'tenant1',
-}))
+onMounted(async () => {
+	data.value = (
+		(await http.get(urls.user.page)) as any
+	).records
+	console.log(data.value)
+})
 </script>
 
 <style scoped></style>
