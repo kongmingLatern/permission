@@ -15,7 +15,10 @@
 		>
 			<template v-if="item.type === 'radio'">
 				<n-radio-group
-					v-model:value="formValue[item.path]"
+					:value="getNestedValue(formValue, item.path)"
+					:on-update:value="
+						e => setNestedValue(formValue, item.path, e)
+					"
 					name="radiogroup"
 				>
 					<n-space>
@@ -45,7 +48,10 @@
 
 			<template v-else-if="item.type === 'select'">
 				<n-select
-					v-model:value="formValue[item.path]"
+					:value="getNestedValue(formValue, item.path)"
+					:on-update:value="
+						e => setNestedValue(formValue, item.path, e)
+					"
 					:multiple="item.multiple"
 					:options="item.options"
 					:placeholder="item.placeholder"
