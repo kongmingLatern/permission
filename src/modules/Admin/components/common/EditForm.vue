@@ -30,8 +30,15 @@
 			</template>
 
 			<template v-else-if="item.type === 'input'">
-				<n-input
+				<!-- <n-input
 					v-model:value="formValue[item.path]"
+					:placeholder="item.placeholder"
+				/> -->
+				<n-input
+					:value="getNestedValue(formValue, item.path)"
+					:on-update:value="
+						e => setNestedValue(formValue, item.path, e)
+					"
 					:placeholder="item.placeholder"
 				/>
 			</template>
@@ -59,12 +66,7 @@
 </template>
 
 <script lang="ts">
-import {
-	defineComponent,
-	onBeforeUnmount,
-	ref,
-	watch,
-} from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useMessage } from 'naive-ui'
 import { http } from '@/api'
 
@@ -100,64 +102,55 @@ export default defineComponent({
 			return transformedDefinitions
 		}
 
-		console.log(formValue.value)
+		function getNestedValue(obj, path) {
+			const pathArray = path.split('.')
+			let value = obj
 
-		// function getValueByPath(obj, path, value = '') {
-		// 	const parts = path.split('.')
-		// 	let current = obj
+			for (const pathSegment of pathArray) {
+				if (
+					value &&
+					typeof value === 'object' &&
+					pathSegment in value
+				) {
+					value = value[pathSegment]
+				} else {
+					value = undefined
+					break
+				}
+			}
 
-		// 	parts.forEach((part, index) => {
-		// 		if (index === parts.length - 1) {
-		// 			current[part] = value // 设置最后一个属性的值为 ''
-		// 		} else {
-		// 			current[part] = current[part] || {} // 如果当前属性不存在，则创建一个空对象
-		// 			current = current[part] // 移到下一个层级
-		// 		}
-		// 	})
+			return value
+		}
 
-		// 	return obj
-		// }
-		// props.form.formItem.forEach(item => {
-		// 	let initialValue = getValueByPath(
-		// 		formValue.value,
-		// 		item.path
-		// 	)
+		// 设置嵌套路径的新值
+		function setNestedValue(obj, path, newValue) {
+			const pathArray = path.split('.')
+			let currentObj = obj
 
-		// 	// 初始化路径值
-		// 	setValueByPath(
-		// 		formValue.value,
-		// 		item.path,
-		// 		initialValue
-		// 	)
+			for (let i = 0; i < pathArray.length - 1; i++) {
+				const pathSegment = pathArray[i]
 
-		// 	// 监听变化并更新
-		// 	const unwatch = watch(
-		// 		() => getValueByPath(formValue.value, item.path),
-		// 		newVal => {
-		// 			setValueByPath(formValue.value, item.path, newVal)
-		// 		}
-		// 	)
+				if (!(pathSegment in currentObj)) {
+					// 如果路径不存在，创建空对象
+					currentObj[pathSegment] = {}
+				}
 
-		// 	// 清理
-		// 	onBeforeUnmount(() => {
-		// 		unwatch()
-		// 	})
-		// })
+				currentObj = currentObj[pathSegment]
+			}
 
-		// // Helper functions (之前已给出的getValueByPath和一个新的setValueByPath)
-		// function setValueByPath(obj, path, value) {
-		// 	const keys = path.split('.')
-		// 	const lastKey = keys.pop()
-		// 	const lastObj = keys.reduce((obj, key) => {
-		// 		if (!obj[key]) obj[key] = {} // 确保每个中间层都存在
-		// 		return obj[key]
-		// 	}, obj)
-		// 	lastObj[lastKey] = value
-		// }
+			// 设置最终路径的新值
+			currentObj[pathArray[pathArray.length - 1]] = newValue
+		}
+
+		watch(formValue, () => {
+			formRef.value?.resetValidation()
+		})
 
 		return {
 			formRef,
 			formValue,
+			getNestedValue,
+			setNestedValue,
 			rules: transformInterfaceDefinition(
 				props.form.formItem
 			),
