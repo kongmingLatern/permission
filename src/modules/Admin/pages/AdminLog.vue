@@ -64,6 +64,10 @@ const columns = [
 	{
 		title: '请求参数',
 		key: 'requestParam',
+		width: 200,
+		ellipsis: {
+			tooltip: true,
+		},
 	},
 	{
 		title: '花费时间',

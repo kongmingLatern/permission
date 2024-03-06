@@ -1,7 +1,57 @@
 <template>
+	<edit-form
+		:form="form"
+		:data="props.formItem"
+		:update-url="urls.path.update"
+	></edit-form>
+</template>
+
+<script setup lang="ts">
+import EditForm from '@/modules/Admin/components/common/EditForm.vue'
+import { urls } from '@/api'
+
+const props = defineProps(['formItem'])
+
+const form = {
+	formItem: [
+		{
+			type: 'input',
+			label: '接口路径',
+			path: 'path',
+			placeholder: '请输入接口路径',
+		},
+		{
+			type: 'input',
+			label: '接口描述',
+			path: 'desc',
+			placeholder: '请输入接口描述',
+		},
+		{
+			type: 'radio',
+			label: '是否需要登录',
+			path: 'ignore',
+			placeholder: '请选择是否需要登录',
+			shouldCheck: false,
+			options: [
+				{
+					value: true,
+					label: '是',
+				},
+				{
+					value: false,
+					label: '否',
+				},
+			],
+		},
+	],
+}
+</script>
+
+<style scoped></style>
+<!-- <template>
 	<n-form
 		ref="formRef"
-		:label-width="80"
+		:label-width="120"
 		:model="formValue"
 		:rules="rules"
 		label-placement="left"
@@ -55,13 +105,24 @@ export default defineComponent({
 	setup(props, { emit }) {
 		const formRef = ref<any>(null)
 		const message = useMessage()
+		console.log('formItem', props.formItem)
 		return {
 			formRef,
 			formValue: ref(props.formItem),
 			rules: {
-				rolename: {
+				path: {
 					required: true,
-					message: '请输入角色名称',
+					message: '请输入路径名称',
+					trigger: 'blur',
+				},
+				desc: {
+					required: true,
+					message: '请输入路径描述',
+					trigger: 'blur',
+				},
+				ignore: {
+					required: true,
+					message: '请选择是否需要登录',
 					trigger: 'blur',
 				},
 			},
@@ -88,4 +149,4 @@ export default defineComponent({
 		}
 	},
 })
-</script>
+</script> -->

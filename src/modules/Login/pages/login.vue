@@ -59,13 +59,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { FormInst, useMessage } from 'naive-ui'
 import { goTo } from '@/utils'
 import { http, urls } from '@/api'
+import { useMessage, useNotification } from 'naive-ui'
 
 export default defineComponent({
 	setup() {
-		const formRef = ref<FormInst | null>(null)
+		window.$message = useMessage()
+		window.$notification = useNotification()
+		const formRef = ref<any>(null)
 		const message = useMessage()
 		return {
 			formRef,
@@ -89,7 +91,6 @@ export default defineComponent({
 				e.preventDefault()
 				formRef.value?.validate(async errors => {
 					if (!errors) {
-						message.success('Valid')
 						try {
 							const res = await http.post(
 								urls.common.login,
@@ -101,13 +102,14 @@ export default defineComponent({
 								'tenantId',
 								r.data.tenantId
 							)
+							message.success('登录成功')
 							goTo('admin')
 						} catch (e) {
 							console.log(e)
 						}
 					} else {
 						console.log(errors)
-						message.error('Invalid')
+						message.error('登录失败')
 					}
 				})
 			},

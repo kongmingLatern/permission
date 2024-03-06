@@ -1,45 +1,18 @@
 <template>
-	<admin-table
-		:data="data"
-		:columns="createColumns()"
-		row-key="id"
-		@update-page="updatePage"
-	></admin-table>
+	<admin-layout
+		:get-url="urls.path.page"
+		:columns="columns"
+		:form="form"
+	></admin-layout>
 </template>
 
 <script setup lang="ts">
-import { getListByPage, urls } from '@/api'
-import AdminTable from '@/modules/Admin/components/AdminTable.vue'
-import EditPathForm from '@/modules/Admin/components/path/EditPathForm.vue'
+import AdminLayout from '@/modules/Admin/layout/AdminLayout.vue'
+import { urls } from '@/api'
 import dayjs from 'dayjs'
-import {
-	NButton,
-	type DataTableColumns,
-	NTag,
-	useModal,
-} from 'naive-ui'
-import { h, onMounted, ref } from 'vue'
-
-type RowData = {
-	createBy: string
-	createTime: Date
-	updateBy: string
-	updateTime: Date
-
-	ignore: boolean
-	path: string
-	desc: string
-	roleCode: string
-	param: string
-}
-
-const data = ref<RowData[]>([])
-const loading = ref(true)
-const modal = useModal()
-const createColumns = (): DataTableColumns<RowData> => [
-	{
-		type: 'selection',
-	},
+import { h } from 'vue'
+import { NTag } from 'naive-ui'
+const columns = [
 	{
 		title: '接口描述',
 		key: 'desc',
@@ -85,53 +58,40 @@ const createColumns = (): DataTableColumns<RowData> => [
 			)
 		},
 	},
-	{
-		title: '操作',
-		key: 'actions',
-		render(row) {
-			return h(
-				NButton,
-				{
-					strong: true,
-					tertiary: true,
-					size: 'small',
-					onClick: () => {
-						modal.create({
-							title: '编辑',
-							content: () =>
-								h(EditPathForm, {
-									formItem: row,
-									onReload: async () => {
-										await getData()
-										modal.destroyAll()
-									},
-								}),
-							preset: 'dialog',
-						})
-					},
-				},
-				{ default: () => '编辑' }
-			)
-		},
-	},
 ]
-
-async function getData(page = 1, pageSize = 10) {
-	loading.value = true
-	data.value = await getListByPage(
-		urls.path.page,
-		page,
-		pageSize
-	)
-	loading.value = false
-}
-
-onMounted(async () => {
-	await getData()
-})
-
-async function updatePage(page) {
-	await getData(page)
+const form = {
+	updateUrl: urls.path.update,
+	formItem: [
+		{
+			type: 'input',
+			label: '接口路径',
+			path: 'path',
+			placeholder: '请输入接口路径',
+		},
+		{
+			type: 'input',
+			label: '接口描述',
+			path: 'desc',
+			placeholder: '请输入接口描述',
+		},
+		{
+			type: 'radio',
+			label: '是否需要登录',
+			path: 'ignore',
+			placeholder: '请选择是否需要登录',
+			shouldCheck: false,
+			options: [
+				{
+					value: true,
+					label: '是',
+				},
+				{
+					value: false,
+					label: '否',
+				},
+			],
+		},
+	],
 }
 </script>
 

@@ -7,9 +7,7 @@
 		"
 		:loading="props.loading"
 		:data="props.data"
-		:pagination="{
-			pageSize: 20,
-		}"
+		:pagination="props.pagination"
 		remote
 		:row-key="row => handleRowKey(row)"
 		@update:checked-row-keys="handleCheck"
@@ -28,6 +26,7 @@ const props = defineProps([
 	'data',
 	'rowKey',
 	'loading',
+	'pagination',
 ])
 
 const emits = defineEmits(['updatePage'])

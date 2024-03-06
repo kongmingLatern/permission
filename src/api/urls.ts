@@ -4,6 +4,14 @@ export const urls = {
     menu: '/api/menu',
     loginOut: '/api/loginOut'
   },
+  department: {
+    queryById: '/api/system/sysDepartment/queryById',
+    page: '/api/system/sysDepartment/page',
+    list: '/api/system/sysDepartment/list',
+    save: '/api/system/sysDepartment/save',
+    remove: '/api/system/sysDepartment/remove',
+    update: '/api/system/sysDepartment/update'
+  },
   log: {
     queryById: '/api/system/sysLog/queryById',
     page: '/api/system/sysLog/page',

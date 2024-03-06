@@ -21,6 +21,15 @@ http.interceptors.request.use(
 // 响应拦截器
 http.interceptors.response.use(
   function (response) {
+    // if (response.data.code === 500) {
+    //   window.$notification.error({
+    //     meta: '错误提示',
+    //     content: error,
+    //     duration: 2500,
+    //     keepAliveOnHover: true
+    //   })
+    //   return
+    // }
     // 对响应数据做点什么
     return response.data;
   }, function (error) {

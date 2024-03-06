@@ -1,4 +1,107 @@
 <template>
+	<admin-layout-list
+		:get-url="urls.permission.list"
+		:columns="columns"
+		:hasAction="false"
+	></admin-layout-list>
+</template>
+
+<script setup lang="ts">
+import AdminLayoutList from '@/modules/Admin/layout/AdminLayoutList.vue'
+import { urls } from '@/api'
+import dayjs from 'dayjs'
+import { h } from 'vue'
+import { NButton, NTag } from 'naive-ui'
+const columns = [
+	{
+		title: '菜单名称',
+		key: 'name',
+	},
+	{
+		title: '菜单路径',
+		key: 'path',
+	},
+	{
+		title: '图标',
+		key: 'icon',
+	},
+	{
+		title: '组件名称',
+		key: 'componentName',
+	},
+	{
+		title: '组件路径',
+		key: 'componentPath',
+	},
+	{
+		title: '重定向路径',
+		key: 'redirect',
+	},
+	{
+		title: '菜单类型',
+		key: 'menyType',
+		render: row => {
+			if (Number(row.menuType) == 0) {
+				return h(NTag, {}, { default: () => '菜单' })
+			} else if (Number(row.menuType) == 1) {
+				return h(NTag, {}, { default: () => '页面' })
+			} else if (Number(row.menuType) == 2) {
+				return h(NTag, {}, { default: () => '路径' })
+			} else {
+				return h(NTag, {}, { default: () => '未知' })
+			}
+		},
+	},
+	{
+		title: '创建者',
+		key: 'createBy',
+	},
+	{
+		title: '创建时间',
+		key: 'createTime',
+		render(row) {
+			return dayjs(row.createTime).format(
+				'YYYY-MM-DD hh:mm:ss'
+			)
+		},
+	},
+	{
+		title: '更新者',
+		key: 'createBy',
+	},
+	{
+		title: '更新时间',
+		key: 'createTime',
+		render(row) {
+			return dayjs(row.createTime).format(
+				'YYYY-MM-DD hh:mm:ss'
+			)
+		},
+	},
+	{
+		title: '操作',
+		key: 'actions',
+		render(row) {
+			return h(
+				NButton,
+				{
+					strong: true,
+					tertiary: true,
+					size: 'small',
+					onClick: () => {
+						console.log(row)
+					},
+				},
+				{ default: () => '操作' }
+			)
+		},
+	},
+]
+</script>
+
+<style scoped></style>
+
+<!-- <template>
 	<admin-table
 		:data="data"
 		:columns="createColumns()"
@@ -131,4 +234,4 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped></style>
+<style scoped></style> -->

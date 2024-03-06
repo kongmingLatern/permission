@@ -1,14 +1,14 @@
 <template>
 	<admin-layout
 		:get-url="urls.tenant.page"
+		:delete-url="urls.tenant.remove"
 		:columns="columns"
-		:form-item="EditTenantForm"
+		:form="form"
 	></admin-layout>
 </template>
 
 <script setup lang="ts">
 import AdminLayout from '@/modules/Admin/layout/AdminLayout.vue'
-import EditTenantForm from '@/modules/Admin/components/tenant/EditTenantForm.vue'
 import { urls } from '@/api'
 import dayjs from 'dayjs'
 const columns = [
@@ -39,6 +39,34 @@ const columns = [
 		},
 	},
 ]
+const form = {
+	button: [
+		{
+			type: 'add',
+			text: '新增租户',
+			form: {
+				addUrl: urls.tenant.save,
+				formItem: [
+					{
+						type: 'input',
+						label: '租户名称',
+						path: 'tenantName',
+						placeholder: '请输入租户名称',
+					},
+				],
+			},
+		},
+	],
+	updateUrl: urls.tenant.update,
+	formItem: [
+		{
+			type: 'input',
+			label: '租户名称',
+			path: 'tenantName',
+			placeholder: '请输入租户名称',
+		},
+	],
+}
 </script>
 
 <style scoped></style>

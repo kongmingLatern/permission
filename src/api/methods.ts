@@ -3,8 +3,12 @@ import { http } from ".";
 export async function getListByPage(url, page = 1, pageSize = 10) {
   return (await http.get(url, {
     params: {
-      page,
+      pageNo: page,
       pageSize
     }
-  }) as any).records
+  }) as any)
+}
+
+export async function getList(url) {
+  return (await http.get(url) as any)
 }
