@@ -78,6 +78,7 @@ import { http } from '@/api'
 
 export default defineComponent({
 	props: ['type', 'url', 'form', 'data'],
+	emits: ['reload'],
 	setup(props, { emit }) {
 		const formRef = ref<any>(null)
 		const message = useMessage()
