@@ -41,6 +41,7 @@
 					v-model:value="formValue[item.path]"
 					:multiple="item.multiple"
 					:options="item.options"
+					:placeholder="item.placeholder"
 				/>
 			</template>
 		</n-form-item>
@@ -84,7 +85,7 @@ export default defineComponent({
 					const key = path // 这里假设path值在新旧格式中都用作key
 					transformedDefinitions[key] = {
 						required: true, // 根据要求设置为true
-						message: `请输入${placeholder}`, // placeholder转换成message
+						message: `${placeholder}`, // placeholder转换成message
 						trigger: 'blur', // 固定触发条件为'blur'
 					}
 				}

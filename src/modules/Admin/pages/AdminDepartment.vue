@@ -1,6 +1,7 @@
 <template>
 	<admin-layout
 		:get-url="urls.department.page"
+		:delete-url="urls.department.remove"
 		:columns="columns"
 		:form="form"
 	></admin-layout>

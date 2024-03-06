@@ -33,6 +33,13 @@ const columns = [
 		key: 'path',
 	},
 	{
+		title: '所属角色',
+		key: 'roleName',
+		render: row => {
+			return row.sysRoles.map(i => i.roleName).join(',')
+		},
+	},
+	{
 		title: '是否需要登录',
 		key: 'ignore',
 		render: row => {
@@ -103,16 +110,27 @@ const form = ref({
 				},
 			],
 		},
-		{
-			type: 'select',
-			label: '权限分配',
-			path: 'roleCodes',
-			placeholder: '请选择要分配的角色',
-			shouldCheck: false,
-			multiple: true,
-			options: data,
-		},
 	],
+	actionCfg: {
+		button: [
+			{
+				type: 'post',
+				title: '权限分配',
+				updateUrl: urls.role.authorizedPath,
+				formItem: [
+					{
+						type: 'select',
+						label: '权限分配',
+						path: 'roleCodes',
+						placeholder: '请选择要分配的角色',
+						shouldCheck: false,
+						multiple: true,
+						options: data,
+					},
+				],
+			},
+		],
+	},
 })
 </script>
 

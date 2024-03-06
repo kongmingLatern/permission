@@ -44,6 +44,7 @@ export const urls = {
   },
   role: {
     queryById: '/api/system/sysRole/queryById',
+    authorizedPath: '/api/system/sysRole/authorizedPath',
     page: '/api/system/sysRole/page',
     list: '/api/system/sysRole/list',
     remove: '/api/system/sysRole/remove',
@@ -51,6 +52,7 @@ export const urls = {
   },
   permission: {
     queryById: '/api/system/sysPermission/queryById',
+    update: '/api/system/sysPermission/update',
     page: '/api/system/sysPermission/page',
     list: '/api/system/sysPermission/list',
     remove: '/api/system/sysPermission/remove',
@@ -66,7 +68,7 @@ export const urls = {
   path: {
     update: '/api/system/sysPath/update',
     queryById: '/api/system/sysPath/queryById',
-    page: '/api/system/sysPath/page',
+    page: '/api/system/sysPath/getPathWithRoleCodesPage',
     list: '/api/system/sysPath/list',
     remove: '/api/system/sysPath/remove',
     save: '/api/system/sysPath/save',

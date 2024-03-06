@@ -1,8 +1,10 @@
 <template>
 	<admin-layout
 		:is-page-query="false"
+		:delete-url="urls.permission.remove"
 		:get-url="urls.permission.list"
 		:columns="columns"
+		:form="form"
 	></admin-layout>
 </template>
 
@@ -81,6 +83,139 @@ const columns = [
 		},
 	},
 ]
+
+const form = {
+	button: [
+		{
+			type: 'add',
+			text: '新增菜单',
+			form: {
+				addUrl: urls.permission.save,
+				formItem: [
+					{
+						type: 'input',
+						label: '菜单名称',
+						path: 'name',
+						placeholder: '请输入菜单名称',
+					},
+					{
+						type: 'input',
+						label: '菜单路径',
+						path: 'path',
+						placeholder: '请输入菜单路径',
+					},
+
+					{
+						type: 'input',
+						label: '图标',
+						path: 'icon',
+						placeholder: '请输入图标',
+					},
+					{
+						type: 'input',
+						label: '组件名称',
+						path: 'componentName',
+						placeholder: '请输入组件名称',
+					},
+					{
+						type: 'input',
+						label: '组件路径',
+						path: 'componentPath',
+						placeholder: '请输入组件路径',
+					},
+					{
+						type: 'input',
+						label: '重定向地址',
+						path: 'redirect',
+						placeholder: '请输入重定向地址',
+					},
+					{
+						type: 'select',
+						label: '菜单类别',
+						path: 'menuType',
+						shouldCheck: false,
+						placeholder: '请选择菜单类别',
+						options: [
+							{
+								label: '菜单',
+								value: 0,
+							},
+							{
+								label: '页面',
+								value: 1,
+							},
+							{
+								label: '路径',
+								value: 2,
+							},
+						],
+					},
+				],
+			},
+		},
+	],
+	updateUrl: urls.permission.update,
+	formItem: [
+		{
+			type: 'input',
+			label: '菜单名称',
+			path: 'name',
+			placeholder: '请输入菜单名称',
+		},
+		{
+			type: 'input',
+			label: '菜单路径',
+			path: 'path',
+			placeholder: '请输入菜单路径',
+		},
+		{
+			type: 'input',
+			label: '图标',
+			path: 'icon',
+			placeholder: '请输入图标',
+		},
+
+		{
+			type: 'input',
+			label: '组件名称',
+			path: 'componentName',
+			placeholder: '请输入组件名称',
+		},
+		{
+			type: 'input',
+			label: '组件路径',
+			path: 'componentPath',
+			placeholder: '请输入组件路径',
+		},
+		{
+			type: 'input',
+			label: '重定向地址',
+			path: 'redirect',
+			placeholder: '请输入重定向地址',
+		},
+		{
+			type: 'select',
+			label: '菜单类别',
+			path: 'menuType',
+			shouldCheck: false,
+			placeholder: '请选择菜单类别',
+			options: [
+				{
+					label: '菜单',
+					value: 0,
+				},
+				{
+					label: '页面',
+					value: 1,
+				},
+				{
+					label: '路径',
+					value: 2,
+				},
+			],
+		},
+	],
+}
 </script>
 
 <style scoped></style>

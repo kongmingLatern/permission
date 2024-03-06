@@ -58,7 +58,6 @@ const basicColumns = [
 	{
 		title: '操作',
 		key: 'actions',
-		width: 150,
 		render(row) {
 			return h(
 				NSpace,
@@ -67,7 +66,37 @@ const basicColumns = [
 				},
 				{
 					default: () => {
-						return [
+						const defaultElement = [
+							props.form?.actionCfg && [
+								...props.form?.actionCfg?.button?.map(i => {
+									return h(
+										NButton,
+										{
+											type: 'warning',
+											size: 'small',
+											onClick: () => {
+												modal.create({
+													title: i.title || '编辑',
+													transformOrigin: 'center',
+													content: () =>
+														h(EditForm, {
+															type: i.type,
+															form: i,
+															url: i.updateUrl,
+															data: row,
+															onReload: async () => {
+																await getData()
+																modal.destroyAll()
+															},
+														}),
+													preset: 'dialog',
+												})
+											},
+										},
+										{ default: () => i.title }
+									)
+								}),
+							],
 							h(
 								NButton,
 								{
@@ -76,6 +105,7 @@ const basicColumns = [
 									onClick: () => {
 										modal.create({
 											title: '编辑',
+											transformOrigin: 'center',
 											content: () =>
 												h(EditForm, {
 													form: props.form,
@@ -125,6 +155,7 @@ const basicColumns = [
 								}
 							),
 						]
+						return defaultElement
 					},
 				}
 			)
@@ -176,6 +207,7 @@ async function updatePage(page: number) {
 function handleAdd(item) {
 	modal.create({
 		title: '新增',
+		transformOrigin: 'center',
 		content: () =>
 			h(EditForm, {
 				form: item.form,

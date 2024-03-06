@@ -10,7 +10,7 @@ http.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么，例如添加token
     config.headers.Authorization = localStorage.getItem('token') || ``;
-    config.headers.tenantId = localStorage.getItem('tenantId') || ``;
+    config.headers.tenantId = localStorage.getItem('tenantId') || `cs`;
     console.log('Request is sent.');
     return config;
   }, function (error) {
