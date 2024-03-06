@@ -185,6 +185,7 @@ onMounted(async () => {
 const handleClick = () => {
 	const modalInst = modal.create({
 		title: '创建用户',
+		transformOrigin: 'center',
 		content: () => h(AddUserForm),
 		preset: 'dialog',
 	})

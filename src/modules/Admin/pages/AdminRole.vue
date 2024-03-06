@@ -171,6 +171,7 @@ function handleConfirm() {
 function handleClick() {
 	const modalInst = modal.create({
 		title: '创建角色',
+		transformOrigin: 'center',
 		content: () => h(AddRoleForm),
 		preset: 'dialog',
 	})
