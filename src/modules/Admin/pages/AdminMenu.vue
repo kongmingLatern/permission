@@ -1,17 +1,19 @@
 <template>
-	<admin-layout-list
+	<admin-layout
+		:is-page-query="false"
 		:get-url="urls.permission.list"
 		:columns="columns"
-		:hasAction="false"
-	></admin-layout-list>
+	></admin-layout>
 </template>
 
 <script setup lang="ts">
-import AdminLayoutList from '@/modules/Admin/layout/AdminLayoutList.vue'
+import AdminLayout from '@/modules/Admin/layout/AdminLayout.vue'
 import { urls } from '@/api'
 import dayjs from 'dayjs'
 import { h } from 'vue'
-import { NButton, NTag } from 'naive-ui'
+import { NTag } from 'naive-ui'
+// TODO: 菜单编辑表单未做
+
 const columns = [
 	{
 		title: '菜单名称',
@@ -75,24 +77,6 @@ const columns = [
 		render(row) {
 			return dayjs(row.createTime).format(
 				'YYYY-MM-DD hh:mm:ss'
-			)
-		},
-	},
-	{
-		title: '操作',
-		key: 'actions',
-		render(row) {
-			return h(
-				NButton,
-				{
-					strong: true,
-					tertiary: true,
-					size: 'small',
-					onClick: () => {
-						console.log(row)
-					},
-				},
-				{ default: () => '操作' }
 			)
 		},
 	},

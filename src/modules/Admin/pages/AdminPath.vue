@@ -8,10 +8,21 @@
 
 <script setup lang="ts">
 import AdminLayout from '@/modules/Admin/layout/AdminLayout.vue'
-import { urls } from '@/api'
+import { getList, urls } from '@/api'
 import dayjs from 'dayjs'
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import { NTag } from 'naive-ui'
+const data = ref([])
+;(async function () {
+	data.value = (await getList(urls.role.list)).map(
+		(i: any) => {
+			return {
+				label: i.roleName,
+				value: i.roleCode,
+			}
+		}
+	)
+})()
 const columns = [
 	{
 		title: '接口描述',
@@ -59,7 +70,8 @@ const columns = [
 		},
 	},
 ]
-const form = {
+
+const form = ref({
 	updateUrl: urls.path.update,
 	formItem: [
 		{
@@ -91,8 +103,17 @@ const form = {
 				},
 			],
 		},
+		{
+			type: 'select',
+			label: '权限分配',
+			path: 'roleCodes',
+			placeholder: '请选择要分配的角色',
+			shouldCheck: false,
+			multiple: true,
+			options: data,
+		},
 	],
-}
+})
 </script>
 
 <style scoped></style>

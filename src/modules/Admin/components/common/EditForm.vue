@@ -35,6 +35,14 @@
 					:placeholder="item.placeholder"
 				/>
 			</template>
+
+			<template v-else-if="item.type === 'select'">
+				<n-select
+					v-model:value="formValue[item.path]"
+					:multiple="item.multiple"
+					:options="item.options"
+				/>
+			</template>
 		</n-form-item>
 
 		<div style="display: flex; justify-content: flex-end">
@@ -84,10 +92,6 @@ export default defineComponent({
 
 			return transformedDefinitions
 		}
-
-		console.log(
-			transformInterfaceDefinition(props.form.formItem)
-		)
 
 		return {
 			formRef,

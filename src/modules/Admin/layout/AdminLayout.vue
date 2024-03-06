@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { getListByPage, http } from '@/api'
+import { getList, getListByPage, http } from '@/api'
 import AdminTable from '@/modules/Admin/components/AdminTable.vue'
 import EditForm from '@/modules/Admin/components/common/EditForm.vue'
 import {
@@ -37,6 +37,7 @@ const modal = useModal()
 const message = useMessage()
 
 const props = defineProps([
+	'isPageQuery',
 	'form',
 	'columns',
 	'getUrl',
@@ -57,10 +58,13 @@ const basicColumns = [
 	{
 		title: '操作',
 		key: 'actions',
+		width: 150,
 		render(row) {
 			return h(
 				NSpace,
-				{},
+				{
+					justify: 'center',
+				},
 				{
 					default: () => {
 						return [
@@ -128,33 +132,38 @@ const basicColumns = [
 	},
 ]
 
-console.log(props.columns.filter(i => i.key === 'actions'))
+const hasAction = ref(props.hasAction ?? true)
+const isPageQuery = ref(props.isPageQuery ?? true)
+const data = ref([])
+const loading = ref(false)
 
 const createColumns = (): DataTableColumns => [
 	basicColumns[0],
 	...props.columns,
-	props.hasAction
+	hasAction.value
 		? props.columns.filter(i => i.key === 'actions')
 				.length > 0
 			? props.columns.filter(i => i.key === 'actions')[0]
 			: basicColumns[1]
-		: basicColumns[1],
+		: null,
 ]
-
-const data = ref([])
-const loading = ref(false)
 
 async function getData(page = 1, pageSize = 10) {
 	data.value = []
 	loading.value = true
-	const { records, totalPage } = await getListByPage(
-		props.getUrl,
-		page,
-		pageSize
-	)
-	pagination.value.pageCount = totalPage
-	data.value = records
-	loading.value = false
+	if (isPageQuery.value) {
+		const { records, totalPage } = await getListByPage(
+			props.getUrl,
+			page,
+			pageSize
+		)
+		pagination.value.pageCount = totalPage
+		data.value = records
+		loading.value = false
+	} else {
+		data.value = await getList(props.getUrl)
+		loading.value = false
+	}
 }
 
 onMounted(async () => {
