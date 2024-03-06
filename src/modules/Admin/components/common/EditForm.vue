@@ -59,7 +59,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import {
+	defineComponent,
+	onBeforeUnmount,
+	ref,
+	watch,
+} from 'vue'
 import { useMessage } from 'naive-ui'
 import { http } from '@/api'
 
@@ -68,6 +73,7 @@ export default defineComponent({
 	setup(props, { emit }) {
 		const formRef = ref<any>(null)
 		const message = useMessage()
+		const formValue = ref({ ...props.data })
 
 		function transformInterfaceDefinition(
 			originalDefinitions
@@ -94,9 +100,64 @@ export default defineComponent({
 			return transformedDefinitions
 		}
 
+		console.log(formValue.value)
+
+		// function getValueByPath(obj, path, value = '') {
+		// 	const parts = path.split('.')
+		// 	let current = obj
+
+		// 	parts.forEach((part, index) => {
+		// 		if (index === parts.length - 1) {
+		// 			current[part] = value // 设置最后一个属性的值为 ''
+		// 		} else {
+		// 			current[part] = current[part] || {} // 如果当前属性不存在，则创建一个空对象
+		// 			current = current[part] // 移到下一个层级
+		// 		}
+		// 	})
+
+		// 	return obj
+		// }
+		// props.form.formItem.forEach(item => {
+		// 	let initialValue = getValueByPath(
+		// 		formValue.value,
+		// 		item.path
+		// 	)
+
+		// 	// 初始化路径值
+		// 	setValueByPath(
+		// 		formValue.value,
+		// 		item.path,
+		// 		initialValue
+		// 	)
+
+		// 	// 监听变化并更新
+		// 	const unwatch = watch(
+		// 		() => getValueByPath(formValue.value, item.path),
+		// 		newVal => {
+		// 			setValueByPath(formValue.value, item.path, newVal)
+		// 		}
+		// 	)
+
+		// 	// 清理
+		// 	onBeforeUnmount(() => {
+		// 		unwatch()
+		// 	})
+		// })
+
+		// // Helper functions (之前已给出的getValueByPath和一个新的setValueByPath)
+		// function setValueByPath(obj, path, value) {
+		// 	const keys = path.split('.')
+		// 	const lastKey = keys.pop()
+		// 	const lastObj = keys.reduce((obj, key) => {
+		// 		if (!obj[key]) obj[key] = {} // 确保每个中间层都存在
+		// 		return obj[key]
+		// 	}, obj)
+		// 	lastObj[lastKey] = value
+		// }
+
 		return {
 			formRef,
-			formValue: ref({ ...props.data }),
+			formValue,
 			rules: transformInterfaceDefinition(
 				props.form.formItem
 			),

@@ -4,6 +4,11 @@ export const urls = {
     menu: '/api/menu',
     loginOut: '/api/loginOut'
   },
+  sysUser: {
+    chooseDepartment: '/api/system/sysUser/chooseDepartment',
+    chooseRole: '/api/system/sysUser/chooseRole',
+    chooseTenant: '/api/system/sysUser/chooseTenant'
+  },
   department: {
     queryById: '/api/system/sysDepartment/queryById',
     page: '/api/system/sysDepartment/page',
@@ -44,7 +49,9 @@ export const urls = {
   },
   role: {
     queryById: '/api/system/sysRole/queryById',
+    update: '/api/system/sysRole/update',
     authorizedPath: '/api/system/sysRole/authorizedPath',
+    authorizedPermission: '/api/system/sysRole/authorizedPermission',
     page: '/api/system/sysRole/page',
     list: '/api/system/sysRole/list',
     remove: '/api/system/sysRole/remove',

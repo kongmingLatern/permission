@@ -1,4 +1,134 @@
 <template>
+	<AdminLayout
+		:delete-url="urls.role.remove"
+		:get-url="urls.role.page"
+		:columns="columns"
+		:form="form"
+	></AdminLayout>
+</template>
+
+<script setup lang="ts">
+import AdminLayout from '@/modules/Admin/layout/AdminLayout.vue'
+import Description from '../components/user/Description.vue'
+import { http, urls } from '@/api'
+import dayjs from 'dayjs'
+import { h } from 'vue'
+import { useNotification } from 'naive-ui'
+
+const notify = useNotification()
+
+const columns = [
+	{
+		title: '角色编号',
+		key: 'roleCode',
+	},
+	{
+		title: '角色名称',
+		key: 'roleName',
+	},
+	{
+		title: '创建者',
+		key: 'createBy',
+	},
+	{
+		title: '创建时间',
+		key: 'createTime',
+		render(row) {
+			return dayjs(row.createTime).format(
+				'YYYY-MM-DD hh:mm:ss'
+			)
+		},
+	},
+	{
+		title: '更新者',
+		key: 'createBy',
+	},
+	{
+		title: '更新时间',
+		key: 'createTime',
+		render(row) {
+			return dayjs(row.createTime).format(
+				'YYYY-MM-DD hh:mm:ss'
+			)
+		},
+	},
+]
+
+const form = {
+	button: [
+		{
+			type: 'add',
+			text: '新增角色',
+			form: {
+				addUrl: urls.role.save,
+				formItem: [
+					{
+						type: 'input',
+						label: '角色编号',
+						path: 'roleCode',
+						placeholder: '请输入角色编号',
+					},
+					{
+						type: 'input',
+						label: '角色名称',
+						path: 'roleName',
+						placeholder: '请输入角色名称',
+					},
+				],
+			},
+		},
+	],
+	updateUrl: urls.role.update,
+	formItem: [
+		{
+			type: 'input',
+			label: '角色编号',
+			path: 'roleCode',
+			placeholder: '请输入角色编号',
+		},
+		{
+			type: 'input',
+			label: '角色名称',
+			path: 'roleName',
+			placeholder: '请输入角色名称',
+		},
+	],
+	actionCfg: {
+		button: [
+			{
+				type: 'post',
+				title: '菜单授权',
+				showComponent: (row, cb) =>
+					h(Description, {
+						current: row,
+						onConfirm: async data => {
+							try {
+								await http.post(
+									urls.role.authorizedPermission,
+									{
+										roleCode: row.roleCode,
+										permissionIds: data,
+									}
+								)
+
+								await cb()
+							} catch {
+								notify.error({
+									meta: '错误信息',
+									content: '授权失败',
+									duration: 2500,
+								})
+							}
+						},
+					}),
+			},
+		],
+	},
+}
+</script>
+
+<style scoped></style>
+<!-- <template>
 	<n-flex justify="end" class="p-2">
 		<n-button type="primary" @click="handleClick"
 			>创建角色</n-button
@@ -179,4 +309,4 @@ function handleClick() {
 }
 </script>
 
-<style scoped></style>
+<style scoped></style> -->

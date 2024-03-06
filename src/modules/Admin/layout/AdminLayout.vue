@@ -14,7 +14,7 @@
 		:columns="createColumns().filter(Boolean)"
 		:loading="loading"
 		:pagination="pagination"
-		row-key="id"
+		:row-key="props.rowKey || 'id'"
 		@update-page="updatePage"
 	></admin-table>
 </template>
@@ -37,6 +37,7 @@ const modal = useModal()
 const message = useMessage()
 
 const props = defineProps([
+	'rowKey',
 	'isPageQuery',
 	'form',
 	'columns',
@@ -78,17 +79,26 @@ const basicColumns = [
 												modal.create({
 													title: i.title || '编辑',
 													transformOrigin: 'center',
-													content: () =>
-														h(EditForm, {
-															type: i.type,
-															form: i,
-															url: i.updateUrl,
-															data: row,
-															onReload: async () => {
-																await getData()
-																modal.destroyAll()
-															},
-														}),
+													content: () => {
+														return i?.showComponent
+															? i?.showComponent(
+																	row,
+																	async () => {
+																		await getData()
+																		modal.destroyAll()
+																	}
+															  )
+															: h(EditForm, {
+																	type: i.type,
+																	form: i,
+																	url: i.updateUrl,
+																	data: row,
+																	onReload: async () => {
+																		await getData()
+																		modal.destroyAll()
+																	},
+															  })
+													},
 													preset: 'dialog',
 												})
 											},
@@ -189,7 +199,12 @@ async function getData(page = 1, pageSize = 10) {
 			pageSize
 		)
 		pagination.value.pageCount = totalPage
-		data.value = records
+		data.value = records.map(i => {
+			return {
+				...i,
+				unquireId: Math.random(),
+			}
+		})
 		loading.value = false
 	} else {
 		data.value = await getList(props.getUrl)
@@ -209,15 +224,19 @@ function handleAdd(item) {
 		title: '新增',
 		transformOrigin: 'center',
 		content: () =>
-			h(EditForm, {
-				form: item.form,
-				type: 'post',
-				url: item.form.addUrl,
-				onReload: async () => {
-					await getData()
-					modal.destroyAll()
+			h(
+				EditForm,
+				{
+					form: item.form,
+					type: 'post',
+					url: item.form.addUrl,
+					onReload: async () => {
+						await getData()
+						modal.destroyAll()
+					},
 				},
-			}),
+				{ default: () => null }
+			),
 		preset: 'dialog',
 	})
 }
@@ -225,6 +244,8 @@ function handleAdd(item) {
 function handleClick(item) {
 	if (item.type === 'add') {
 		// NOTE: 新增
+		handleAdd(item)
+	} else if (item.type === 'put') {
 		handleAdd(item)
 	}
 }
